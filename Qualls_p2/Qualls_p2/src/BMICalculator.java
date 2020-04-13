@@ -1,11 +1,13 @@
 import java.util.Scanner;
 
 public class BMICalculator {
-	int height;
-	int weight;
+	double height;
+	double weight;
 	int isMetric;
+	double bmi;
+	String category;
 	Scanner input = new Scanner(System.in);
-	public int getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
@@ -13,7 +15,7 @@ public class BMICalculator {
 		this.height = height;
 	}
 
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
@@ -36,15 +38,27 @@ public class BMICalculator {
 	private void readMetricData() {
 		System.out.println("Enter your height in cm's:");
 		setHeight(input.nextInt());
+		if(height<0) {
+			System.exit(1);
+		}
 		System.out.println("Enter your weight in kg's:");
 		setWeight(input.nextInt());
+		if(weight<0) {
+			System.exit(1);
+		}
 	}
 
 	private void readImperialData() {
 		System.out.println("Enter your height in inches:");
 		setHeight(input.nextInt());
+		if(height<0) {
+			System.exit(1);
+		}
 		System.out.println("Enter your weight in pounds:");
 		setWeight(input.nextInt());
+		if(weight<0) {
+			System.exit(1);
+		}
 	}
 
 	private void readMeasurementData() {
@@ -54,16 +68,44 @@ public class BMICalculator {
 			readImperialData();
 		}
 	}
-
-	public void calculateBMI() {
-
+	
+	public void getBmi() {
+		calculateBmi();
+	}
+	
+	public void getBmiCategory() {
+		calculateBmiCategory();
+	}
+	
+	public void calculateBmi() {
+		if (isMetric == 0) {
+			bmi=weight/((height/100)*(height/100));
+		}
+		else {
+			bmi=(703*weight)/(height*height);
+		}
+		
 	}
 
-	private void calculateBMICategory() {
 
+	private void calculateBmiCategory() {
+		if(bmi<18.5) {
+			category = "Underweight";
+		}
+		else if(bmi<25) {
+			category = "Normal";
+		}
+		else if(bmi<30) {
+			category = "Overweight";
+		}
+		else { category = "Obesity"; }
+		
 	}
 
-	public void displayBMI() {
-
+	public void displayBmi() {
+		calculateBmi();
+		calculateBmiCategory();
+		System.out.printf("BMI and BMI Category:%f\t%s", bmi, category);
+		
 	}
 }
